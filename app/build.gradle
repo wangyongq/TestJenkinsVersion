@@ -5,7 +5,7 @@ def getDate(){
     def formattedDate = data.format('yyyy-MM-dd-HH-mm');
     return formattedDate
 }
-def verCode = 14
+def VERSION_CODE = 14
 
 android {
     compileSdkVersion 26
@@ -14,7 +14,7 @@ android {
         applicationId "com.example.wyq.testjenkinsversion"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode verCode
+        versionCode VERSION_CODE
         versionName APP_VERSION
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -59,7 +59,7 @@ android {
             def outDirectory
             timeNow = BUILD_TIME
             outDirectory = BUILD_PATH
-            newName = 'Test-v'+APP_VERSION+'-'+variant.productFlavors[0].name+'-'+variant.buildType.name+'.apk'
+            newName = 'Test-v'+APP_VERSION+'-'+'code'+VERSION_CODE+'-'+variant.productFlavors[0].name+'-'+variant.buildType.name+'.apk'
             output.outputFile = new File(outDirectory+'/'+timeNow,newName)
         }
     }
