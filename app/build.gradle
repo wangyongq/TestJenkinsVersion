@@ -5,8 +5,8 @@ apply plugin: 'com.android.application'
 //    def formattedDate = data.format('yyyy-MM-dd-HH-mm');
 //    return formattedDate
 //}
-def VERSION_CODE = 1
-def APP_VERSION= '0.01'
+def VERSION_CODE = 14
+
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.3'
@@ -43,9 +43,11 @@ android {
     }
     productFlavors{
         wandoujia{
+            versionCode VERSION_CODE
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia"]
         }
         xiaomi{
+            versionCode VERSION_CODE
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi"]
         }
     }
