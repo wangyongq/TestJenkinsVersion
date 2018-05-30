@@ -1,0 +1,76 @@
+apply plugin: 'com.android.application'
+
+def getDate(){
+    def date = new Date()
+    def formattedDate = data.format('yyyy-MM-dd-HH-mm');
+    return formattedDate
+}
+def verCode = 14
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '26.0.3'
+    defaultConfig {
+        applicationId "com.example.wyq.testjenkinsversion"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode verCode
+        versionName APP_VERSION
+        multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+
+    }
+
+    signingConfigs{
+        signingConfig{
+            storeFile file('../diyishuji-release.jks')
+            keyAlias 'diyishuji-release'
+            keyPassword 'dysj2016'
+            storePassword 'dysj2016'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.signingConfig
+        }
+        debug {}
+    }
+    dexOptions{
+        javaMaxHeapSize "2g"
+    }
+    productFlavors{
+        wandoujia{
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia"]
+        }
+        xiaomi{
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi"]
+        }
+    }
+    applicationVariants.add{variant ->
+        variant.outputs.each{output ->
+            //新名字
+            def newName
+            //时间
+            def timeNow
+            //输出文件
+            def outDirectory
+            timeNow = BUILD_TIME
+            outDirectory = BUILD_PATH
+            newName = 'Test-v'+APP_VERSION+'-'+variant.productFlavors[0].name+'-'+variant.buildType.name+'.apk'
+            output.outputFile = new File(outDirectory+'/'+timeNow,newName)
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+}
